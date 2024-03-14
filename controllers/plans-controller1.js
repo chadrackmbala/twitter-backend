@@ -1,19 +1,19 @@
-const router = require("express").Router();
-const initialData = require("../assets/initial-data.json");
+const router1 = require("express").Router();
+const initialData = require("../data/initial-data.json");
 
 // GET initial-data
 
-router.get("/", (req, res) => {
-    res.send(initialData.tweets);
+router1.get("/", (req, res) => {
+    res.send(initialData);
 });
 
-router.get("/:id", (req, res) => {
+router1.get("/:id", (req, res) => {
 
 });
 
 // POST tweet
 
-router.post("/tweets", (req, res) => {
+router1.post("/", (req, res) => {
 
     const tweets = initialData.tweets;
     const tweetAvatar = initialData.tweets.tweetAvatar;
@@ -51,3 +51,17 @@ router.post("/tweets", (req, res) => {
 });
 
 module.exports = router;
+
+
+
+// 
+// "tweetAvatar": "/images/newyorkTime.png",
+// "tweetAvatar": "/images/tweetLogo.png",
+// "tweetAvatar": "/images/tweetLogo.png",
+// "tweetAvatar": "/images/tweetLogo.png",
+
+// "tweetImage": null,
+// "tweetImage": "/images/tweetImage.png",
+// "tweetImage": "/images/tweetImage.png",
+// "tweetImage": "/images/tweetImage.png",
+// "tweetImage": "/images/tweetImage.png",
