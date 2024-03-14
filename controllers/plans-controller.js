@@ -5,6 +5,7 @@ const initialData = require("../data/initial-data.json");
 
 router.get("/", (req, res) => {
     res.send(initialData);
+    console.log("data sent");
 });
 
 router.get("/:id", (req, res) => {
