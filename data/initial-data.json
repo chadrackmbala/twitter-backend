@@ -1,0 +1,64 @@
+{
+    "currentUser": {
+        "name": "Bradley Ortiz",
+        "isLogged": false,
+        "userImageProfil": "/images/profile-photo.png"
+    },
+    "tweets": [
+        {
+            "id": 1,
+            "tweetAvatar": "../images/cnnAvatar.png",
+            "tweetTitle": "CNN",
+            "tweetP": "@CNN . 7m",
+            "tweetText": "President Joe Biden touted a new agreement reached with the European Union to ease Trump-era tariffs on aluminum and steel as a 'major breakthrough' that would serve to both strengthen the US steel industry and combat the global climate crisis.",
+            "tweetImage": null,
+            "comments": 57,
+            "retweet": 144,
+            "likes": 184
+        },
+        {
+            "id": 2,
+            "tweetAvatar": "../images/newyorkTime.png",
+            "tweetTitle": "The New York Times",
+            "tweetP": "@nytimes . 2h",
+            "tweetText": "Gardening boomed during the pandemic. Six Black writers share how it has helped them re-establish, and reimagine, a connection to cultivation and the land",
+            "tweetImage": "../images/tweetImage.png",
+            "comments": 19,
+            "retweet": 48,
+            "likes": 482
+        },
+        {
+            "id": 3,
+            "tweetAvatar": "../images/tweetLogo.png",
+            "tweetTitle": "Twitter",
+            "tweetP": "@Twitter . Oct 29",
+            "tweetText": "BIG NEWS lol jk still Twitter",
+            "tweetImage": "../images/tweetImage.png",
+            "comments": "6.8K",
+            "retweet": "36.6K",
+            "likes": "267.1K"
+        },
+        {
+            "id": 4,
+            "tweetAvatar": "../images/tweetLogo.png",
+            "tweetTitle": "Twitter",
+            "tweetP": "@Twitter . Oct 4",
+            "tweetText": "hello literally everyone",
+            "tweetImage": "../images/tweetImage.png",
+            "comments": "118.7K",
+            "retweet": "785.4K",
+            "likes": "3.3M"
+        },
+        {
+            "id": 5,
+            "tweetAvatar": "../images/tweetLogo.png",
+            "tweetTitle": "Twitter",
+            "tweetP": "@Twitter . Oct 4",
+            "tweetText": "hello literally everyone",
+            "tweetImage": "../images/tweetImage.png",
+            "comments": null,
+            "retweet": null,
+            "likes": null
+        }
+    ]
+}
