@@ -42,6 +42,7 @@ router.post("/", (req, res) => {
         },
         tweets: tweets
     })
+    console.log("post reussi !");
 });
 
 module.exports = router;
