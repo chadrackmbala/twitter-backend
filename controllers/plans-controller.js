@@ -13,6 +13,11 @@ if (!fs.existsSync('.assets/data.json')) {
 
 const data = require("../assets/data.json");
 
+router.get("/", (req, res) => {
+    const tweets = data.tweets.reverse();
+    res.send("Welcom");
+});
+
 // GET ALL TWEETS
 
 router.get("/tweets", (req, res) => {
