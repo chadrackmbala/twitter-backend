@@ -8,6 +8,7 @@ app.use(cors())
 app.use(express.json())
 
 app.use("/", plansController);
-app.use("/tweets", plansController);
+app.use("/:handle", plansController);
+// app.use("/:handle/media", plansController);
 
-app.listen(PORT, console.log(`server runnig on port ${PORT}`));
+app.listen(PORT, console.log(`server runnig on port ${PORT} !`));

@@ -1,53 +1,116 @@
 const router = require("express").Router();
-const initialData = require("../assets/initial-data.json");
+const fs = require("fs");
+// const initialData = require("../assets/initial-data.json");
 
-// GET initial-data
+// CREATING DATA FILE
 
-router.get("/", (req, res) => {
-    res.send(initialData.tweets);
+if (!fs.existsSync('.assets/data.json')) {
+    const initialData = JSON.parse(fs.readFileSync('./assets/initial-data.json', 'utf-8'));
+
+    fs.writeFileSync('./assets/data.json', JSON.stringify(initialData, null, 2));
+    console.log('Fichier créer avec succès !');
+};
+
+const data = require("../assets/data.json");
+
+// GET ALL TWEETS
+
+router.get("/tweets", (req, res) => {
+    const tweets = data.tweets.reverse();
+    res.status(200).json(tweets);
 });
 
-router.get("/:id", (req, res) => {
+// GET TWEET BY HANDLE USER
 
-});
+router.get("/:handle/tweets", (req, res) => {
+    const handle = req.params.handle;
+    const tweets = data.tweets
+    const users = data.users
+    const foundUser = users.find(user => user.handle === handle);
+    const authorId = foundUser.id;
+    const foundTweet = tweets.find(tweet => tweet.author === authorId);
 
-// POST tweet
-
-router.post("/tweets", (req, res) => {
-
-    const tweets = initialData.tweets;
-    const tweetAvatar = initialData.tweets.tweetAvatar;
-    const tweetImage = initialData.tweets.tweetImage;
-    console.log({ reqBody: req.body });
-    const id = tweets.length + 1;
-    const { tweetTitle, tweetP, tweetText, comments, retweet, likes } = req.body;
-    const newTweet = {
-        id: id,
-        tweetAvatar,
-        tweetTitle,
-        tweetP,
-        tweetText,
-        tweetImage,
-        comments,
-        retweet,
-        likes
+    if (foundTweet) {
+        res.status(200).json(foundTweet);
+    } else {
+        res.status(404).send("Tweets Not Found");
     }
-    tweets.push(newTweet)
-    res.status(201).json({
-        tweet: {
-            id: id,
-            tweetAvatar: tweetAvatar,
-            tweetTitle: tweetTitle,
-            tweetP: tweetP,
-            tweetText: tweetText,
-            tweetImage: tweetImage,
-            comments: comments,
-            retweet: retweet,
-            likes: likes
-        },
-        tweets: tweets
-    })
-    console.log("post reussi !");
 });
+
+// GET TWEET BY HANDLE USER WHERE MEDIA EXIST
+
+router.get("/:handle/media", (req, res) => {
+    const handle = req.params.handle;
+    const tweets = data.tweets
+    const users = data.users
+    const foundUser = users.find(user => user.handle === handle);
+    const authorId = foundUser.id;
+    const foundTweet = tweets.find(tweet => tweet.author === authorId);
+    console.log(foundTweet);
+
+    if (foundTweet && foundTweet.media && foundTweet.media.length > 0) {
+        res.status(200).json(foundTweet);
+    } else {
+        res.status(404).send("Media not found");
+    }
+});
+
+// GET USER BY USERNAME
+
+router.get("/:handle", (req, res) => {
+    const handle = req.params.handle;
+    const users = data.users;
+    const foundUser = users.find(user => user.handle === handle);
+
+    if (foundUser) {
+        res.status(200).json(foundUser);
+        console.log(foundUser);
+    } else {
+        res.status(404).send("User Not Found");
+    }
+});
+
+
+// POST TWEET
+
+router.post("/tweets", async(req, res) => {
+    try {
+        const tweets = data.tweets;
+        console.log({ reqBody: req.body });
+        const id = tweets.length + 1;
+        const { author, media, retweetCount, favoriteCount, repliesCount, text, createdAt } = req.body;
+        const newTweet = {
+            id,
+            author,
+            media,
+            retweetCount,
+            favoriteCount,
+            repliesCount,
+            text,
+            createdAt,
+        }
+        console.log(newTweet);
+        tweets.push(newTweet)
+        res.status(201).json({
+            tweet: {
+                id: id,
+                author: author,
+                media: media,
+                retweetCount: retweetCount,
+                favoriteCount: favoriteCount,
+                repliesCount: repliesCount,
+                text: text,
+                createdAt: createdAt,
+            },
+            tweets: tweets
+        })
+        console.log(newTweet);
+        // console.log({ reqBody: req.body });
+        console.log("Post réussi !");
+    } catch (error) {
+        console.error("Erreur lors de la création du tweet :", error);
+        res.status(500).json({ error: "Erreur lors de la création du tweet" });
+    }
+})
 
 module.exports = router;
