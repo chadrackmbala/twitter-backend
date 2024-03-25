@@ -72,7 +72,7 @@ router.get("/tweet", (req, res) => {
     // Afficher le tableau final des utilisateurs avec leurs tweets
     console.log(usersWithTweets);
     // console.log(existingUser.tweets);
-    res.send(200).json(usersWithTweets);
+    res.status(200).json(usersWithTweets);
 
 });
 
