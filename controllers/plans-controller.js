@@ -18,6 +18,64 @@ router.get("/", (req, res) => {
     res.send("Welcom");
 });
 
+// GET User and his Tweet
+
+router.get("/tweet", (req, res) => {
+    const users = data.users;
+    const tweets = data.tweets;
+
+    // Fonction pour obtenir un utilisateur par ID
+    function getUserById(id) {
+        return users.find(user => user.id === id);
+    }
+
+    // Tableau pour stocker les utilisateurs avec leurs tweets
+    let usersWithTweets = [];
+    let existingUser;
+
+    // Parcourir les tweets
+    tweets.forEach(tweet => {
+        // Obtenir l'utilisateur correspondant à l'auteur du tweet
+        let authorUser = getUserById(tweet.author);
+
+        // Vérifier si l'utilisateur a été trouvé
+        if (authorUser) {
+            // Vérifier si l'utilisateur existe déjà dans le tableau usersWithTweets
+            existingUser = usersWithTweets.find(user => user.id === authorUser.id);
+
+            // Si l'utilisateur n'existe pas, l'ajouter au tableau avec un tableau de tweets vide
+            if (!existingUser) {
+                existingUser = {
+                    id: authorUser.id,
+                    handle: authorUser.handle,
+                    name: authorUser.name,
+                    profilePicture: authorUser.profilePicture,
+                    tweets: []
+                };
+                usersWithTweets.push(existingUser);
+            };
+
+            // Ajouter le tweet à la liste des tweets de l'utilisateur
+            existingUser.tweets.push({
+                id: tweet.id,
+                authorUser: tweet.author,
+                media: tweet.media,
+                retweetCount: tweet.retweetCount,
+                favoriteCount: tweet.favoriteCount,
+                repliesCount: tweet.repliesCount,
+                text: tweet.text,
+                createdAt: tweet.createdAt
+            });
+        };
+    });
+
+    // Afficher le tableau final des utilisateurs avec leurs tweets
+    console.log(usersWithTweets);
+    // console.log(existingUser.tweets);
+    res.send(200).json(usersWithTweets);
+
+});
+
 // GET ALL TWEETS
 
 router.get("/tweets", (req, res) => {
@@ -29,8 +87,8 @@ router.get("/tweets", (req, res) => {
 
 router.get("/:handle/tweets", (req, res) => {
     const handle = req.params.handle;
-    const tweets = data.tweets
-    const users = data.users
+    const tweets = data.tweets;
+    const users = data.users;
     const foundUser = users.find(user => user.handle === handle);
     const authorId = foundUser.id;
     const foundTweet = tweets.find(tweet => tweet.author === authorId);
@@ -78,7 +136,7 @@ router.get("/:handle", (req, res) => {
 
 // POST TWEET
 
-router.post("/tweets", async(req, res) => {
+router.post("/tweets", async (req, res) => {
     try {
         const tweets = data.tweets;
         console.log({ reqBody: req.body });
